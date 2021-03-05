@@ -4,10 +4,12 @@ PVector a=new PVector(50,100);
 boolean press=false;
 float angle;
 PVector pressed=new PVector(110,110);
+PGraphics p;
 
 pulled debug;
 void setup(){
-  size(1000,1000);
+  size(2000,2000);
+  p=createGraphics(2000,2000);
 }
 //https://www.real-world-physics-problems.com/physics-of-billiards.html
 void draw(){ 
@@ -29,7 +31,7 @@ void draw(){
   }
   for(Attracter ar :attracter)
     ar.show();
-  
+  image(p,0,0);
 }
 void mousePressed(){
   switch(mouseButton){
@@ -49,6 +51,6 @@ void mouseReleased(){
   if(press){
   press=false;
     attracted.add(debug);
-    debug.acceleration=PVector.fromAngle(angle).mult(10);
+    debug.acceleration=PVector.fromAngle(angle).mult(PVector.sub(new PVector(mouseX,mouseY),pressed).mag()/50);
   }
 }

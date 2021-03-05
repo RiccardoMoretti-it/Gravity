@@ -1,2 +1,2 @@
-Float GRAVITY_COSTANT=0.5;
+Float GRAVITY_COSTANT=29.81;
 boolean gravityExists=true;
