@@ -6,13 +6,14 @@ float angle;
 PVector pressed=new PVector(110,110);
 PGraphics p;
 
+int collisions=0;
 pulled debug;
 void setup(){
   size(2000,2000);
   p=createGraphics(2000,2000);
 }
-//https://www.real-world-physics-problems.com/physics-of-billiards.html
 void draw(){ 
+  textSize(72);
   background(220);
   if(press)
   {
@@ -32,6 +33,8 @@ void draw(){
   for(Attracter ar :attracter)
     ar.show();
   image(p,0,0);
+  text(frameRate,100,100);
+  text(collisions,100,200);
 }
 void mousePressed(){
   switch(mouseButton){
