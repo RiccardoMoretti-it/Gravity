@@ -13,23 +13,25 @@ void setup(){
   p=createGraphics(2000,2000);
 }
 void draw(){ 
-  textSize(72);
   background(220);
+  textSize(72);
   if(press)
   {
     angle=PVector.sub(new PVector(mouseX,mouseY),pressed).heading();
     line(pressed.x,pressed.y,pressed.x+40*cos(angle),pressed.y+40*sin(angle));
-  }
+  }/*
   line(mouseX,mouseY,mouseX+a.x,mouseY+a.y);
   PVector b=a.copy().rotate(PI/2);
   
   line(mouseX,mouseY,mouseX+b.x,mouseY+b.y);
-  
+  */
   for(pulled ad :attracted){
-    ad.show();
     ad.gravity(attracter);
     ad.update(attracter);
+    fill(0);
+    ad.show();
   }
+  fill(220);
   for(Attracter ar :attracter)
     ar.show();
   image(p,0,0);

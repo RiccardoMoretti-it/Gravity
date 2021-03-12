@@ -32,14 +32,13 @@ class pulled {
         
         //perpendicolare tra i due corpi
         PVector perpendicular= PVector.sub(pos,ar.pos).normalize();
-        println(perpendicular.heading());
         perpendicular.rotate(-PI/2);
-        println(perpendicular.heading());
-        println(acceleration.heading());
-        println(perpendicular.heading()-acceleration.heading());
+        float angle=perpendicular.heading();
+        perpendicular.rotate(-angle);
+        acceleration.rotate(-angle);
         PVector newAcceleration= PVector.fromAngle(perpendicular.heading()-acceleration.heading());
         acceleration=newAcceleration.setMag(acceleration.mag());
-        println(acceleration.heading());
+        acceleration.rotate(angle);
 
         //mando avanti il corpo
         pos.add(acceleration.copy().normalize().mult(difference));
