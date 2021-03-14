@@ -1,42 +1,33 @@
 ArrayList<pulled> attracted=new ArrayList<pulled>();
 ArrayList<Attracter> attracter=new ArrayList<Attracter>();
-PVector a=new PVector(50,100);
+//se con il click sinistro si tenta di creare un nuovo elemento
 boolean press=false;
 float angle;
 PVector pressed=new PVector(110,110);
-PGraphics p;
 
-int collisions=0;
 pulled debug;
 void setup(){
   size(2000,2000);
-  p=createGraphics(2000,2000);
+  textSize(72);
 }
 void draw(){ 
   background(220);
-  textSize(72);
   if(press)
   {
     angle=PVector.sub(new PVector(mouseX,mouseY),pressed).heading();
     line(pressed.x,pressed.y,pressed.x+40*cos(angle),pressed.y+40*sin(angle));
-  }/*
-  line(mouseX,mouseY,mouseX+a.x,mouseY+a.y);
-  PVector b=a.copy().rotate(PI/2);
-  
-  line(mouseX,mouseY,mouseX+b.x,mouseY+b.y);
-  */
-  for(pulled ad :attracted){
-    ad.gravity(attracter);
-    ad.update(attracter);
-    fill(0);
-    ad.show();
   }
   fill(220);
   for(Attracter ar :attracter)
     ar.show();
-  image(p,0,0);
+    fill(0);
+  for(pulled ad :attracted){
+    ad.gravity(attracter);
+    ad.update(attracter);
+    ad.show();
+  }
   text(frameRate,100,100);
-  text(collisions,100,200);
+  text(attracted.size(),100,200);
 }
 void mousePressed(){
   switch(mouseButton){
@@ -45,7 +36,6 @@ void mousePressed(){
     break;
     case 37:
     pressed=new PVector(mouseX,mouseY);
-      println(pressed.x+" "+pressed.y);
     press=true;
     debug=new pulled(mouseX,mouseY,20,20);
     break;
@@ -54,8 +44,21 @@ void mousePressed(){
 }
 void mouseReleased(){
   if(press){
-  press=false;
+  press=false; 
+  float intensity=(PVector.sub(new PVector(mouseX,mouseY),pressed).mag()/50);
+    debug.acceleration=PVector.fromAngle(angle).setMag(intensity);
+  for(int i=0;i<50;i++){
+  
+  pulled p=new pulled((int)debug.pos.x,(int)debug.pos.y,debug.mass,debug.size);
+  p.acceleration=debug.acceleration.copy().rotate(random(-0.5*PI,0.5*PI));
+    attracted.add(p);
+  }
     attracted.add(debug);
-    debug.acceleration=PVector.fromAngle(angle).mult(PVector.sub(new PVector(mouseX,mouseY),pressed).mag()/50);
+  }
+}
+void keyPressed(){
+  if(key=='r'||key=='R'){
+  attracted.clear();
+  attracter.clear();
   }
 }

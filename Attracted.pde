@@ -24,27 +24,27 @@ class pulled {
     for (Attracter ar : a)
       //controllo se vi è un contatto con un altro corpo
       //lo tratto con il metodo delle palle da biliardo: //https://www.real-world-physics-problems.com/physics-of-billiards.html
-      if (PVector.dist(pos, ar.pos)<ar.size/2+size/2) {      
-        collisions++;
+      if (PVector.dist(pos, ar.pos)<ar.size/2+size/2) {    
         //rimando indietro il corpo compenetrato
         float difference=((ar.size/2+size/2)-PVector.dist(pos, ar.pos)+1);
         pos.sub(acceleration.copy().normalize().mult(difference));  
         
-        //perpendicolare tra i due corpi
-        PVector perpendicular= PVector.sub(pos,ar.pos).normalize();
-        perpendicular.rotate(-PI/2);
-        float angle=perpendicular.heading();
-        perpendicular.rotate(-angle);
-        acceleration.rotate(-angle);
+        
+        PVector perpendicular= PVector.sub(pos,ar.pos).normalize(); //perpendicolare
+        float angle=perpendicular.rotate(-PI/2).heading();//angolo dellatangente
+        perpendicular.rotate(-angle); //normalizzo l'angolo
+        acceleration.rotate(-angle); //normalizzo l'accellerazione
+        
+        //la nuova direzione è resa dalla differenza tra l'angolo della 
+        //tangente e l'angolo dell'accellerazione(direzione)
         PVector newAcceleration= PVector.fromAngle(perpendicular.heading()-acceleration.heading());
         acceleration=newAcceleration.setMag(acceleration.mag());
-        acceleration.rotate(angle);
+        acceleration.rotate(angle); //denormalizzo l'accellerazione
 
         //mando avanti il corpo
         pos.add(acceleration.copy().normalize().mult(difference));
         acceleration.mult(0.9); 
-        
-      }
+        }
   }
   float x() {
     return pos.x;
