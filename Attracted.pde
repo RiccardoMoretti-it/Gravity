@@ -10,7 +10,8 @@ class pulled {
   }
   void gravity(ArrayList<Attracter>a) {
     if (gravityExists)
-      for (Attracter ar : a) {
+      for (Attracter ar : a)
+        if(acceleration.mag()>0.5) {
         //direzione della forza gravitazionale
         PVector dir=PVector.sub(ar.pos, pos).normalize();
         //forza gravitazionale (m1*m2)/r^2
@@ -18,15 +19,17 @@ class pulled {
         dir.mult(force);
         acceleration.add(dir);
       }
+      else acceleration.setMag(0);
   }
   void update(ArrayList<Attracter>a) {
     pos.add(acceleration);
+    println(acceleration.mag());
     for (Attracter ar : a)
       //controllo se vi è un contatto con un altro corpo
       //lo tratto con il metodo delle palle da biliardo: //https://www.real-world-physics-problems.com/physics-of-billiards.html
-      if (PVector.dist(pos, ar.pos)<ar.size/2+size/2) {    
+      if (PVector.dist(pos, ar.pos)<ar.size/2+size/2) { 
         //rimando indietro il corpo compenetrato
-        float difference=((ar.size/2+size/2)-PVector.dist(pos, ar.pos)+1);
+        float difference=((ar.size/2+size/2)-PVector.dist(pos, ar.pos));
         pos.sub(acceleration.copy().normalize().mult(difference));  
         
         
@@ -40,10 +43,11 @@ class pulled {
         PVector newAcceleration= PVector.fromAngle(perpendicular.heading()-acceleration.heading());
         acceleration=newAcceleration.setMag(acceleration.mag());
         acceleration.rotate(angle); //denormalizzo l'accellerazione
-
         //mando avanti il corpo
+        if(acceleration.mag()>0.5){
         pos.add(acceleration.copy().normalize().mult(difference));
         acceleration.mult(0.9); 
+        }
         }
   }
   float x() {

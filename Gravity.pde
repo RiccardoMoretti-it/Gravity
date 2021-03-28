@@ -47,12 +47,7 @@ void mouseReleased(){
   press=false; 
   float intensity=(PVector.sub(new PVector(mouseX,mouseY),pressed).mag()/50);
     debug.acceleration=PVector.fromAngle(angle).setMag(intensity);
-  for(int i=0;i<50;i++){
-  
-  pulled p=new pulled((int)debug.pos.x,(int)debug.pos.y,debug.mass,debug.size);
-  p.acceleration=debug.acceleration.copy().rotate(random(-0.5*PI,0.5*PI));
-    attracted.add(p);
-  }
+
     attracted.add(debug);
   }
 }
